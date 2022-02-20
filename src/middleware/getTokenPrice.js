@@ -15,7 +15,7 @@ const pancakeSwapRouterAddress = '0x10ed43c718714eb63d5aa57b78b54704e256024e';
 var WBNBAddress = '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c';
 var multiplicatorBuy=1.01; //1.03;
 var multiplicatorSell=0.9;
-let output=[];
+let output={avgprice:[]};
 
 async function getTokenPrice(){
     var newValue=await getSpreadsheet();
@@ -36,7 +36,7 @@ async function getTokenPrice(){
                 var resultPriceSell1=await determine.sellPrice(await tokenAddress,await volumeToSell);
                 resultPriceSell1=multiplicatorSell*await resultPriceSell1;
                 var cumulativePriceLast=await getCumulative(tokenAddress)
-                output.push({
+                output.avgprice.push({
                     getDate:dateNow,
                     tokenAddress:tokenAddress,
                     priceBuy:resultPriceBuy1,
