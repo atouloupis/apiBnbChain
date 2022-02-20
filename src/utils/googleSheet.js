@@ -5,7 +5,7 @@ const path=require('path');
 
 async function getSpreadsheet(){
     const auth = new google.auth.GoogleAuth({
-        keyFile: path.join(__dirname,"../credentials.json"), //the key file
+        keyFile: path.join(__dirname,"../../credentials.json"), //the key file
         //url to spreadsheets API
         scopes: "https://www.googleapis.com/auth/spreadsheets", 
     });
@@ -27,7 +27,7 @@ async function getSpreadsheet(){
 
 async function setSpreadsheet(values,line){
     const auth = new google.auth.GoogleAuth({
-        keyFile: path.join(__dirname,"credentials.json"), //the key file
+        keyFile: path.join(__dirname,"../../credentials.json"), //the key file
         //url to spreadsheets API
         scopes: "https://www.googleapis.com/auth/spreadsheets",
     });
@@ -55,7 +55,7 @@ return await writeData;
 
 async function setOneSpreadsheet(values,column,line){
     const auth = new google.auth.GoogleAuth({
-        keyFile: path.join(__dirname,"credentials.json"), //the key file
+        keyFile: path.join(__dirname,"../../credentials.json"), //the key file
         //url to spreadsheets API
         scopes: "https://www.googleapis.com/auth/spreadsheets",
     });
@@ -85,7 +85,7 @@ return await writeData;
 
 async function getAllSpreadsheet(){
     const auth = new google.auth.GoogleAuth({
-        keyFile: path.join(__dirname,"credentials.json"), //the key file
+        keyFile: path.join(__dirname,"../../credentials.json"), //the key file
         //url to spreadsheets API
         scopes: "https://www.googleapis.com/auth/spreadsheets",
     });

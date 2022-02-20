@@ -7,12 +7,12 @@ const tokenPrice=require(path.join(__dirname,'./tokenPrice.js'))
 var getAbi=require(path.join(__dirname,'./getAbi.js'));
 
 
-async function buyPrice(tokenAddress,amount,contract)
+async function buyPrice(tokenAddress,amount,contract,pairAbiBNBToken, getPairBNBToken)
 {
 //console.log("decimals")
 //console.log(contract.methods.decimals)
     if (contract.methods.decimals!=undefined){
-            var priceResult=await getPrice1("0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",tokenAddress,amount,true)
+            var priceResult=await getPrice1("0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",tokenAddress,amount,true,pairAbiBNBToken, getPairBNBToken)
 //console.log("priceResult")
 //console.log(await priceResult)
       if (await priceResult!=false){
@@ -28,19 +28,19 @@ async function buyPrice(tokenAddress,amount,contract)
   else{return false}
 }
 
-async function sellPrice(tokenAddress,amount)
+async function sellPrice(tokenAddress,amount, pairAbiTokenBNB, getPairTokenBNB)
 {
-      var priceResult=await getPrice1(tokenAddress,"0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",amount,false)
+      var priceResult=await getPrice1(tokenAddress,"0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",amount,false,pairAbiTokenBNB, getPairTokenBNB)
       if (await priceResult!=false){
         //console.log("sellprice estimate"+await priceResult.price)
-        var getTokenPrice=await tokenPrice.getTokenPrice(tokenAddress);
+        //var getTokenPrice=await tokenPrice.getTokenPrice(tokenAddress);
         //console.log("getTokenPrice"+getTokenPrice)
         //console.log("diff sellPrice/getTokenPrice = "+await priceResult.price/await getTokenPrice)
         //console.log("priceImpact"+priceResult.priceImpact)
-        if(await getTokenPrice!=false && await priceResult.price/await getTokenPrice<1.5 && await priceResult.price/await getTokenPrice>0.5 && await priceResult.priceImpact>-0.001 && await priceResult.priceImpact<0.001){
+        //if(await getTokenPrice!=false && await priceResult.price/await getTokenPrice<1.5 && await priceResult.price/await getTokenPrice>0.5 && await priceResult.priceImpact>-0.001 && await priceResult.priceImpact<0.001){
           return await priceResult.price;
-        }
-        else {return false}
+        //}
+        //else {return false}
       }
       else {return false}
 }
@@ -60,14 +60,9 @@ async function compareAddress(token0Address,token1Address,token0,getReserves)
   }
 }
 
-async function getPrice1(token0Address,token1Address,amount,buy)
+async function getPrice1(token0Address,token1Address,amount,buy,pairAbi, getPair)
 {
-  var factoryAbi=await getAbi.getAbi("0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73");
-  const factoryContract = new web3.eth.Contract(await factoryAbi, "0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73");
-//console.log("token0 "+token0Address+" token1 "+token1Address)
-  var getPair = await factoryContract.methods.getPair(token0Address,token1Address).call();
-if(await getPair!="0x0000000000000000000000000000000000000000"){
-  var pairAbi=await getAbi.getAbi(await getPair);
+
   const pairContract = new web3.eth.Contract(await pairAbi, await getPair);
   var getReserves = await pairContract.methods.getReserves().call();
 //console.log("reserves")
@@ -114,5 +109,4 @@ else{
   //console.log(priceImpact)
   var result={"price":await new_market_price,"priceImpact":await priceImpact}
   return await result;
-}else{return false}
 }

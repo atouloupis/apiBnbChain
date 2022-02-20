@@ -59,12 +59,6 @@ if (abiArray!="Contract source code not verified"){
 else{return false;}
 }
 
-function sleep(ms) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
-}
-
 function getReceipt(transactionHash)
 {
   return new Promise ((resolve) =>{

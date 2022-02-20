@@ -4,7 +4,7 @@ const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch
 
 function getAbi(contractAddress){
 const promiseAbi = new Promise((resolve, reject) => {
-
+  sleep(200)
   var url="https://api.bscscan.com/api?module=contract&action=getabi&apikey=7VER72M88Q2SKS9Y7XXD2MBXSK8URP5AEH&address="+contractAddress;
   fetch(url)
     .then(
@@ -32,3 +32,8 @@ const promiseAbi = new Promise((resolve, reject) => {
 return promiseAbi;
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+  });
+}
