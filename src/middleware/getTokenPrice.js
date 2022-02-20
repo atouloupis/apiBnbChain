@@ -37,6 +37,7 @@ async function getTokenPrice(){
                 resultPriceSell1=multiplicatorSell*await resultPriceSell1;
                 var cumulativePriceLast=await getCumulative(tokenAddress)
                 output.push({
+                    getDate:dateNow,
                     tokenAddress:tokenAddress,
                     priceBuy:resultPriceBuy1,
                     priceSell:resultPriceSell1,
