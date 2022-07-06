@@ -6,10 +6,6 @@ var getAbi=require(path.join(__dirname,'../utils/getAbi.js'));
 const determine=require(path.join(__dirname,'../utils/determinePrice.js'));
 const {getSpreadsheet}=require(path.join(__dirname,'../utils/googleSheet.js'));
 var qs = require('qs');
-    var dateNow=new Date()
-    dateNow = Date.parse(dateNow)
-    dateNow=dateNow+(1*60*60*1000)
-    dateNow=new Date(dateNow)
 const myAddress = '0x50c69f09763E1fa792907046a09F09876c732D2a';
 const pancakeSwapRouterAddress = '0x10ed43c718714eb63d5aa57b78b54704e256024e';
 var WBNBAddress = '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c';
@@ -18,6 +14,11 @@ var multiplicatorSell=0.9;
 let output={avgprice:[]};
 
 async function getTokenPrice(){
+    var dateNow=new Date()
+    dateNow = Date.parse(dateNow)
+    dateNow=dateNow+(1*60*60*1000)
+    dateNow=new Date(dateNow)
+    let output={avgprice:[]};
     console.log(new Date())
     var factoryAbi=await getAbi.getAbi("0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73");
     const factoryContract = new web3.eth.Contract(factoryAbi, "0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73");
@@ -25,7 +26,7 @@ async function getTokenPrice(){
     var newValue=await getSpreadsheet();
     newValue.shift();
     var sheetValue=await cleanArray(await newValue);
-    for (var b=await sheetValue.length-2;b<sheetValue.length;b++){
+    for (var b=await sheetValue.length-15;b<sheetValue.length;b++){
         var volumeToBuy=23000000000000000;
         var currentToken=await sheetValue[b];
         var tokenAddress=await currentToken[4];
